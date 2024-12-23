@@ -25,8 +25,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Plus, UsersRound } from "lucide-react"
-import { AddUserForm } from "./addUserform"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -64,17 +62,16 @@ export function DataTable<TData, TValue>({
         <div className="flex justify-between items-center py-4">
             
               <Input
-              placeholder="Filtrer ref..."
-              value={(table.getColumn("ref")?.getFilterValue() as string) ?? ""}
+              placeholder="Filtrer reference..."
+              value={(table.getColumn("reference")?.getFilterValue() as string) ?? ""}
               onChange={(event) =>
-                  table.getColumn("ref")?.setFilterValue(event.target.value)
+                  table.getColumn("reference")?.setFilterValue(event.target.value)
               }
-              className="max-w-md"
+              className="max-w-md ms-auto"
               />
-              <AddUserForm />
             
         </div>
-        <div className="rounded-md border w-full">
+        <div className="rounded-md border">
         <Table>
             <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

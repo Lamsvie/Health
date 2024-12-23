@@ -39,6 +39,7 @@ export function LoginForm() {
                 placeholder="m@example.com"
                 required
               />
+              { state?.errors?.email && <span className="text-red-500">{ state.errors.email }</span> }
             </div>
             <div className="grid gap-2">
               <div className="flex items-center">
@@ -48,6 +49,7 @@ export function LoginForm() {
                 </Link>
               </div>
               <Input id="password" name="password" type="password" required />
+              { state?.errors?.password && <span className="text-red-500">{ state.errors.password }</span> }
             </div>
             <Button type="submit" className="w-full">
               Login

@@ -31,11 +31,13 @@ import {
 } from "@/components/ui/sidebar"
 import { useFormState } from "react-dom"
 import { logout } from "@/app/actions/user"
+import Link from "next/link"
 
 export function NavUser({
   user,
 }: {
   user: {
+    id: string,
     name: string
     email: string
     avatar: string
@@ -85,10 +87,12 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Account
-              </DropdownMenuItem>
+              <Link href={`/dashboard/account/${user.id}`}>
+                <DropdownMenuItem>
+                  <BadgeCheck />
+                  Account
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>
                 <Bell />
                 Notifications

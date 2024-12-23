@@ -9,6 +9,9 @@ import { Home } from "lucide-react";
 export default async function Layout({ children }: { children: React.ReactNode }) {
 
     const currentUser = await verifyToken()
+    console.log(currentUser);
+    
+    
 
     return (
       <SidebarProvider>

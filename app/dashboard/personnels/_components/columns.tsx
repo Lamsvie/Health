@@ -1,16 +1,17 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { User } from "@/lib/types"
+import { MedecinFolder } from "@/lib/types"
 import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, Delete, Edit } from "lucide-react"
+import { ArrowUpDown, Edit, Eye } from "lucide-react"
 import Link from "next/link"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
 
-export const columns: ColumnDef<User>[] = [
+
+export const columns: ColumnDef<MedecinFolder>[] = [
   {
     accessorKey: "ref",
     header: ({ column }) => {
@@ -54,42 +55,56 @@ export const columns: ColumnDef<User>[] = [
       },
   },
   {
-    accessorKey: "email",
+    accessorKey: "birthday",
     header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Email
+            Birthday
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
       },
   },
   {
-    accessorKey: "tel",
+    accessorKey: "qualification",
     header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Tel
+            Qualification
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
       },
   },
   {
-    accessorKey: "role",
+    accessorKey: "genre",
     header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
-            Role
+            Genre
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+  },
+  {
+    accessorKey: "adresse",
+    header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Adresse
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
@@ -102,9 +117,10 @@ export const columns: ColumnDef<User>[] = [
         const userId = row.original._id
         
         return (
-            <>
-                <Button size={"icon"} > <Link href={`/dashboard/management/${userId}`}><Edit size={16}/></Link> </Button>
-            </>
+            <div className="flex gap-2">
+                <Button size={"icon"}> <Link href={`/dashboard/personnels/${userId}`} ><Edit size={16}/></Link> </Button>
+                <Button size={"icon"} variant={"destructive"}> <Link href={`/dashboard/personnels/dashboard/${userId}`} ><Eye size={16}/></Link> </Button>
+            </div>
         )
     }
   }

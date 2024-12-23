@@ -1,4 +1,6 @@
-import { signup } from "@/app/actions/user"
+'use client'
+
+import { addInfoPersonnel } from "@/app/actions/infopersonnel"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -17,15 +19,15 @@ import { useEffect } from "react"
 import { useFormState } from "react-dom"
 import { toast } from "sonner"
 
-export function AddUserForm() {
+export function AddPersonnelForm() {
 
-    const [state, formAction] = useFormState(signup, undefined)
+    const [state, formAction] = useFormState(addInfoPersonnel, undefined)
 
     useEffect(()=> {
 
       if (state?.type === 'success') {
         toast.success(state.message)
-        redirect('/dashboard/management')
+        redirect('/dashboard/personnels/')
       }
 
       if (state?.type === 'error') {
@@ -37,11 +39,11 @@ export function AddUserForm() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button> <Plus/> Ajout Utilisateur </Button>
+        <Button> <Plus/> Ajout Personnel </Button>
       </DialogTrigger>
       <DialogContent className="md:max-w-4xl">
         <DialogHeader>
-          <DialogTitle>Ajout Utilisateur</DialogTitle>
+          <DialogTitle>Ajout dossier Personnel</DialogTitle>
         </DialogHeader>
         <form action={formAction}>
             <div className="grid grid-cols-2 gap-4 py-4">
@@ -67,17 +69,6 @@ export function AddUserForm() {
             </div>
             <div className="grid gap-4">
                 <Label htmlFor="username">
-                Numero Tel
-                </Label>
-                <Input
-                name="tel"
-                type="tel"
-                className="col-span-3"
-                />
-                { state?.errors?.tel && <span className="text-red-500">{ state.errors.tel }</span> }
-            </div>
-            <div className="grid gap-4">
-                <Label htmlFor="username">
                 Email
                 </Label>
                 <Input
@@ -89,26 +80,37 @@ export function AddUserForm() {
             </div>
             <div className="grid gap-4">
                 <Label htmlFor="username">
-                Password
+                Numero Tel
                 </Label>
                 <Input
-                type="password"
-                name="password"
+                name="tel"
+                type="tel"
                 className="col-span-3"
                 />
-                { state?.errors?.password && <span className="text-red-500">{ state.errors.password }</span> }
+                { state?.errors?.tel && <span className="text-red-500">{ state.errors.tel }</span> }
+            </div>
+            <div className="grid gap-4">
+                <Label htmlFor="username">
+                Date Naissance
+                </Label>
+                <Input
+                name="birthday"
+                type="date"
+                className="col-span-3"
+                />
+                { state?.errors?.birthday && <span className="text-red-500">{ state.errors.birthday }</span> }
             </div>
             <div className="flex items-center gap-6">
                 <Label htmlFor="role" className="text-nowrap">Role utilisateur</Label>
-                <RadioGroup name="role" defaultValue="Admin">
+                <RadioGroup name="role" defaultValue="Medecin">
                     <div className="flex gap-2">
-                        <div className="flex flex-row items-center space-x-2">
-                            <RadioGroupItem value="Admin" id="r1" />
-                            <Label htmlFor="r1">Admin</Label>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Medecin" id="r2" />
+                            <Label htmlFor="r2">Medecin</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="Superviseur" id="r2" />
-                            <Label htmlFor="r2">Superviseur</Label>
+                            <RadioGroupItem value="Caissier" id="r3" />
+                            <Label htmlFor="r3">Caissier</Label>
                         </div>
                     </div>
                 </RadioGroup>

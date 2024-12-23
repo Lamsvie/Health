@@ -24,10 +24,11 @@ import clsx from "clsx"
 export function AppSidebar({currentUser} : { currentUser : any}) {
 
   
-  const items = getPage(currentUser.role)
+  const items = getPage(currentUser.role, currentUser.id)  
 
   const avatar = `${currentUser.firstName[0]}${currentUser.lastName[0]}`
   const user= {
+    id: currentUser.id,
     name: currentUser.firstName,
     email: currentUser.email,
     avatar: avatar,

@@ -25,8 +25,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Plus, UsersRound } from "lucide-react"
-import { AddUserForm } from "./addUserform"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -69,12 +67,11 @@ export function DataTable<TData, TValue>({
               onChange={(event) =>
                   table.getColumn("ref")?.setFilterValue(event.target.value)
               }
-              className="max-w-md"
+              className="max-w-md ms-auto"
               />
-              <AddUserForm />
             
         </div>
-        <div className="rounded-md border w-full">
+        <div className="rounded-md border">
         <Table>
             <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -1,6 +1,6 @@
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 
-export function getPage(role: string) {
+export function getPage(role: string, id: string) {
     
 
     if (role === 'Admin') {
@@ -8,27 +8,22 @@ export function getPage(role: string) {
         const items = [
             {
             title: "Dashboard",
-            url: "#",
+            url: "/dashboard",
             icon: Home,
             },
             {
-            title: "Medecin",
-            url: "#",
+            title: "Dossier Medecin",
+            url: "/dashboard/personnels",
             icon: Inbox,
             },
             {
-            title: "Ajout Medecin",
-            url: "#",
-            icon: Inbox,
-            },
-            {
-            title: "Patient",
-            url: "#",
+            title: "Dossier Patient",
+            url: "/dashboard/patients",
             icon: Calendar,
             },
             {
             title: "Tickets",
-            url: "#",
+            url: "/dashboard/tickets",
             icon: Search,
             },
             {
@@ -45,12 +40,12 @@ export function getPage(role: string) {
         const items = [
             {
             title: "Dashboard",
-            url: "#",
+            url: `/dashboard/patients/dashboard/${id}`,
             icon: Home,
             },
             {
             title: "Liste Dossier",
-            url: "#",
+            url: "/dashboard/patients/",
             icon: Inbox,
             },
             {

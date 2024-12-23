@@ -1,6 +1,4 @@
 import { LoginForm } from '@/components/login-form'
-import { verifyToken } from '@/lib/verifyToken'
-import { redirect } from 'next/navigation'
 import React from 'react'
 
 const loginPage = async () => {
