@@ -1,87 +1,98 @@
+'use client'
+
+import { addResultTest } from '@/app/actions/testmedical'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Plus } from 'lucide-react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useFormState } from 'react-dom'
+import { toast } from 'sonner'
 
-const TestResultComponent = () => {
+const TestResultComponent = ({reference, prescription, patient_ref, medecin_ref} : {reference : any, prescription : any, patient_ref: string, medecin_ref: string}) => {
+
+    const [state, formAction] = useFormState(addResultTest, undefined)
+
+    const categories = [...new Set(reference.map((item: any) => item.categorie))];
+
+    const [typeTest, setTypeTest] = useState('biochimie')
+    
+    useEffect(() => {
+        if (state?.type === 'success') {
+
+            toast.success(state.message)
+        }
+        if (state?.type === 'error') {
+
+            toast.error(state.message)
+        }
+    }, [state])
+    
   return (
     <Dialog>
             <DialogTrigger asChild>
                 <Button> <Plus /> Resultat Test </Button>
             </DialogTrigger>
-            <DialogContent className="md:max-w-4xl">
+            <DialogContent className="md:max-w-4xl max-h-[700px] overflow-auto">
                 <DialogHeader>
                     <DialogTitle>Ajout Resultat Test</DialogTitle>
                 </DialogHeader>
-                <form action='' className='flex flex-col gap-4'>
+                <form action={formAction} className='flex flex-col gap-4'>
+                <Input name='medecin_ref' defaultValue={medecin_ref} className='sr-only' />
+                <Input name='patient_ref' defaultValue={patient_ref} className='sr-only' />
                     <div className='grid gap-4'>
-                        <div className='flex flex-col gap-2'>
-                            <Label>Type de Test</Label>
-                            <Select>
-                                <SelectTrigger className="w-[280px]">
-                                    <SelectValue defaultValue={"Test sanguins"} placeholder="Test sanguins" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Laboratoire</SelectLabel>
-                                        <SelectItem value="est">Test sanguins</SelectItem>
-                                        <SelectItem value="est">Test Urinaire</SelectItem>
-                                        <SelectItem value="est">Test Fecaux</SelectItem>
-                                    </SelectGroup>
-                                    <SelectGroup>
-                                        <SelectLabel>Imagerie</SelectLabel>
-                                        <SelectItem value="est">Radiographie (ex. : thorax, os, dents).</SelectItem>
-                                        <SelectItem value="est">Échographie (abdominale, pelvienne, cardiaque)</SelectItem>
-                                        <SelectItem value="est">Scanner (TDM - tomodensitométrie)</SelectItem>
-                                        <SelectItem value="est">IRM (imagerie par résonance magnétique)</SelectItem>
-                                        <SelectItem value="est">Mammographie (dépistage du cancer du sein)</SelectItem>
-                                    </SelectGroup>
-                                    <SelectGroup>
-                                        <SelectLabel>Fonctionnel</SelectLabel>
-                                        <SelectItem value="est">Électrocardiogramme (ECG)</SelectItem>
-                                        <SelectItem value="est">Épreuve d’effort</SelectItem>
-                                        <SelectItem value="est">Spirométrie</SelectItem>
-                                        <SelectItem value="est">EEG (électroencéphalogramme)</SelectItem>
-                                    </SelectGroup>
-                                    <SelectGroup>
-                                        <SelectLabel>Microbiologie</SelectLabel>
-                                        <SelectItem value="est">Tests PCR (ex. : dépistage COVID-19, VIH, hépatite B/C)</SelectItem>
-                                        <SelectItem value="est">Sérologie (VIH, hépatite, rubéole, syphilis)</SelectItem>
-                                        <SelectItem value="est">Culture bactérienne ou fongique</SelectItem>
-                                        <SelectItem value="est">Tests allergologiques (IgE, prick test)</SelectItem>
-                                        <SelectItem value="est">Tests de dépistage bactérien (ex. : streptocoque, tuberculose)</SelectItem>
-                                    </SelectGroup>
-                                    <SelectGroup>
-                                        <SelectLabel>Génétique</SelectLabel>
-                                        <SelectItem value="est">Analyse ADN (recherche de mutations génétiques)</SelectItem>
-                                        <SelectItem value="est">Tests de dépistage prénatal non invasif (trisomie 21)</SelectItem>
-                                        <SelectItem value="est">Tests de prédisposition (BRCA pour le cancer du sein)</SelectItem>
-                                        <SelectItem value="est">Caryotype (anomalies chromosomiques)</SelectItem>
-                                    </SelectGroup>
-                                    <SelectGroup>
-                                        <SelectLabel>Spécifique</SelectLabel>
-                                        <SelectItem value="est">Test de grossesse (HCG)</SelectItem>
-                                        <SelectItem value="est">Hémoglobine glyquée (HbA1c pour le suivi du diabète)</SelectItem>
-                                        <SelectItem value="est">Tests de coagulation (INR, temps de prothrombine)</SelectItem>
-                                        <SelectItem value="est">Tests d’intolérance alimentaire (gluten, lactose)</SelectItem>
-                                        <SelectItem value="est">Test de dépistage des drogues</SelectItem>
-                                    </SelectGroup>
-                                    <SelectGroup>
-                                        <SelectLabel>Rapide</SelectLabel>
-                                        <SelectItem value="est">Test antigénique COVID-19</SelectItem>
-                                        <SelectItem value="est">Test rapide VIH</SelectItem>
-                                        <SelectItem value="est">Glucomètre (glycémie capillaire)</SelectItem>
-                                        <SelectItem value="est">Moniteur de pression artérielle</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
+                        <div className='flex gap-4'>
+                            <div className='flex flex-col gap-2'>
+                                <Label>Type de Test</Label>
+                                <Select name='typetest' onValueChange={setTypeTest}>
+                                    <SelectTrigger className="w-[280px]">
+                                        <SelectValue placeholder={typeTest} defaultValue={typeTest} />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        
+                                        { categories.map((cat : any) => (
+                                            <SelectItem key={cat} value={cat}> {cat} </SelectItem>
+                                        )) }
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <Label>Prescription</Label>
+                                <Select name='prescription'>
+                                    <SelectTrigger className="w-[280px]">
+                                        <SelectValue placeholder="Choisir la prescription" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        
+                                        { prescription.map((pres : any) => (
+                                            <SelectItem key={pres._id} value={pres.prescription_ref}> {pres.prescription_ref} </SelectItem>
+                                        )) }
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </div>
+                        
+
+                        <div className='flex flex-col gap-4'>
+                            {   
+                                reference.map((ref : any) => (
+                                    typeTest === ref.categorie && <div key={ref._id} className='flex gap-4 items-center'>
+                                    <Input name='test'  value={ref.test} />
+                                    <Input name='valeur' className='border border-primary' />
+                                    <Input name='valeur_ref'  value={ref.valeur} />
+                                    <Input name='unite'  value={ref.unité} />
+                                </div>
+                                ))
+                            }
+                            
+                        </div>
+
                         <div className='flex flex-col gap-2'>
                             <Label>Resume d'Observation</Label>
-                            <Textarea rows={5} placeholder={`Resume d'observation...`}></Textarea>
+                            <Textarea name='observation' rows={5} placeholder={`Resume d'observation...`}></Textarea>
                         </div>
                     </div>
 

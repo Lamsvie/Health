@@ -1,20 +1,20 @@
-'use client'
+"use client"
 
 import { Button } from "@/components/ui/button"
-import { Prescription } from "@/lib/types"
+import { Ordonnance } from "@/lib/types"
 import { ColumnDef } from "@tanstack/react-table"
-import { format } from "date-fns"
-import { ArrowUpDown, Edit, Eye } from "lucide-react"
+import { format, parse } from "date-fns"
+import { ArrowUpDown, Edit, Eye, icons } from "lucide-react"
 import Link from "next/link"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 
 
-export const columns: ColumnDef<Prescription>[] = [
+export const columnsOrd: ColumnDef<Ordonnance>[] = [
 
   {
-    accessorKey: "prescription_ref",
+    accessorKey: "ordonnance_Ref",
     header: ({ column }) => {
         return (
           <Button
@@ -54,7 +54,7 @@ export const columns: ColumnDef<Prescription>[] = [
           </Button>
         )
       },
-      cell: ({ row }) => {
+    cell: ({ row }) => {
         
         const formatted = format(row.getValue("createdAt"), "dd/MM/yyyy")
    
@@ -69,8 +69,8 @@ export const columns: ColumnDef<Prescription>[] = [
         
         return (
             <div className="flex gap-2">
-                <Button size={"icon"} ><Edit size={16}/> </Button>
-                <Button variant={"destructive"} size={"icon"}> <Link href={`/dashboard/patients/dashboard/prescription/${userId}`}><Eye size={16}/></Link> </Button> 
+                <Button size={"icon"}> <Link href={`/dashboard/patients/dashboard/ordonnance/${userId}`}><Edit size={16}/></Link> </Button>
+                <Button variant={"destructive"} size={"icon"}> <Link href={`/dashboard/patients/dashboard/ordonnance/${userId}`}><Eye size={16}/></Link> </Button>
             </div>
         )
     }

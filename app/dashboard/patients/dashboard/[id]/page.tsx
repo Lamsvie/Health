@@ -1,12 +1,17 @@
-import { GET_PATIENTFOLDER_URL, PATIENTFOLDER_URL } from '@/lib/endpoints'
+import { GET_ONEPRESCRIPTION_URL, GET_ORDONNANCE_BYPATIENT_URL, GET_PATIENTFOLDER_URL, GET_REFERENCE_URL, GET_TESTMEDICAL_BYPATIENT_URL, PATIENTFOLDER_URL } from '@/lib/endpoints'
 import axios from 'axios'
 import { getYear } from 'date-fns'
-import { Activity, Droplet, DropletsIcon, FlaskConical, Microscope, MoveUpRightIcon, Newspaper, PersonStandingIcon, Pill, User2Icon } from 'lucide-react'
+import { Activity, Brain, Droplet, DropletsIcon, FlaskConical, Microscope, MoveUpRightIcon, Newspaper, OrbitIcon, PersonStandingIcon, Pill, SquarePlus, User2Icon } from 'lucide-react'
 import React from 'react'
 import { DataTable } from './_components/data-tablePrescriptions'
 import { columns } from './_components/columnsPresriptions'
 import { DataTableTest } from './_components/data-tableTest'
 import { columnsTest } from './_components/columnsTest'
+import PrescriptionComponent from './_components/prescription'
+import TestResultComponent from './_components/testResult'
+import Ordonnance from './_components/ordonnance'
+import { DataTableOrd } from './_components/data-tableOrdonnance'
+import { columnsOrd } from './_components/columnsOrdonnance'
 
 const patientDashboadPage = async ({params}: { params: Promise<{id: string}> }) => {
 
@@ -17,15 +22,21 @@ const patientDashboadPage = async ({params}: { params: Promise<{id: string}> }) 
     const response = await axios.get(`${GET_PATIENTFOLDER_URL}${id}`)
 
     const patientFolder = response.data
-    console.log( patientFolder );
-
-    const patientfolder = await axios.get(PATIENTFOLDER_URL) 
 
     // calcul age
     const age = getYear(Date()) - getYear(patientFolder.birthday)
 
-    
-    
+    // liste de prescription du patient
+    const prescription = await axios.get(`${GET_ONEPRESCRIPTION_URL}${patientFolder.reference}`)
+
+    // liste de reference medicale
+    const reference = await axios.get(GET_REFERENCE_URL)
+
+    // testmedical du patient
+    const testmedical = await axios.get(`${GET_TESTMEDICAL_BYPATIENT_URL}${patientFolder.reference}`) 
+
+    // ordonnance du patient
+    const ordonnance = await axios.get(`${GET_ORDONNANCE_BYPATIENT_URL}${patientFolder.reference}`)
 
     return (
         <div className='mt-4 flex flex-col gap-4'>
@@ -171,12 +182,32 @@ const patientDashboadPage = async ({params}: { params: Promise<{id: string}> }) 
 
             <div className='grid sm:grid-cols-2 sm:flex-nowrap gap-4'>
                 <div className='bg-white border rounded-lg p-4 shadow-md'>
-                    <h1 className='text-lg flex text-nowrap items-center gap-2'> <Newspaper className='text-primary' size={24} /> Liste des prescriptions</h1>
-                    <DataTable columns={columns} data={patientfolder.data} />
+                    <div className='flex justify-between items-center '>
+                        <h1 className='text-lg flex text-nowrap items-center gap-2'> <Newspaper className='text-primary' size={24} /> Liste des prescriptions</h1>
+                        <PrescriptionComponent patient_ref={patientFolder.reference} medecin_ref='test' />
+                    </div>
+                    <DataTable columns={columns} data={prescription.data} />
                 </div>
                 <div className='bg-white border rounded-lg p-4 shadow-md'>
-                <h1 className='text-lg flex text-nowrap items-center gap-2'> <Microscope className='text-primary' size={24} /> Liste des Resultats Tests</h1>
-                    <DataTableTest columns={columnsTest} data={patientfolder.data} />
+                    <div className='flex justify-between items-center '>
+                        <h1 className='text-lg flex text-nowrap items-center gap-2'> <Microscope className='text-primary' size={24} /> Liste des Resultats Tests</h1>
+                        <TestResultComponent reference={reference.data} prescription={prescription.data} patient_ref={patientFolder.reference} medecin_ref='test' />
+                    </div>
+                    <DataTableTest columns={columnsTest} data={testmedical.data} />
+                </div>
+            </div>
+            <div className='grid sm:grid-cols-3 sm:flex-nowrap gap-4'>
+                <div className='bg-white border rounded-lg p-4 shadow-md col-span-2'>
+                    <div className='flex justify-between items-center '>
+                        <h1 className='text-lg flex text-nowrap items-center gap-2'> <SquarePlus className='text-primary' size={24} /> Liste d'ordonnance</h1>
+                        <Ordonnance patient_ref={patientFolder.reference} medecin_ref='test' prescription={prescription.data} />
+                    </div>
+                    <DataTableOrd columns={columnsOrd} data={ordonnance.data} />
+                </div>
+                <div className='bg-white border rounded-lg p-4 shadow-md'>
+                    <div className='flex justify-between items-center '>
+                        <h1 className='text-lg flex text-nowrap items-center gap-2'> <Brain className='text-primary' size={24} /> Conseil Santé</h1>
+                    </div>
                 </div>
             </div>
 

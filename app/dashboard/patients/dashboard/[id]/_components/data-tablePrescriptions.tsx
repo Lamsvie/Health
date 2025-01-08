@@ -25,8 +25,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Plus } from "lucide-react"
-import PrescriptionComponent from "./prescription"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -65,14 +63,12 @@ export function DataTable<TData, TValue>({
             
               <Input
               placeholder="Filtrer reference..."
-              value={(table.getColumn("reference")?.getFilterValue() as string) ?? ""}
+              value={(table.getColumn("prescription_ref")?.getFilterValue() as string) ?? ""}
               onChange={(event) =>
-                  table.getColumn("reference")?.setFilterValue(event.target.value)
+                  table.getColumn("prescription_ref")?.setFilterValue(event.target.value)
               }
-              className="max-w-md"
+              className="max-w-sm"
               />
-
-              <PrescriptionComponent />
             
         </div>
         <div className="rounded-md border">

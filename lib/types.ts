@@ -42,3 +42,42 @@ export type MedecinFolder = {
     ref: String,
     role: string
 }
+
+export type Prescription = {
+    _id: string
+    prescription_ref: string,
+    medecin_ref: string,
+    patient_ref: string,
+    douleur: string,
+    diagnostic: string,
+    conseil: string,
+    createdAt: Date
+}
+
+export type TestMedecial = {
+    _id: string,
+    test_ref: string,
+    patient_ref: String,
+    medecin_ref: String,
+    prescription_ref: String,
+    testType: String,
+    value: Array<JSON>,
+    observation: string
+}
+
+export type Ordonnance = {
+    _id: string,
+    ordonnance_Ref: string,
+    patient_ref: String,
+    medecin_ref: String,
+    prescription_ref: String,
+    medicaments: Array<JSON>,
+    instructions: string
+}
+
+export type Reference = {
+    _id: string,
+    categorie: string,
+    valeur: string,
+    unité: string
+}

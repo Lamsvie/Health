@@ -77,13 +77,15 @@ export const login = async (state: any, formdata: FormData) => {
 
         }
 
+        
+
     } catch (error: any) {
         return {
             type: 'error', message: error?.response?.data?.message
         }
     }
 
-    redirect('/dashboard')
+    //redirect('/dashboard')
 }
 
 // function d'inscription

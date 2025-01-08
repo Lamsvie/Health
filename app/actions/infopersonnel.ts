@@ -32,7 +32,6 @@ const updateInfopersonnelSchema = z.object({
 
 export const addInfoPersonnel = async (state: any, formdata: FormData) => {
 
-    console.log(formdata.get('role'));
     
     try {
 

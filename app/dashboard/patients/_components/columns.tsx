@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { PatientFolder } from "@/lib/types"
 import { ColumnDef } from "@tanstack/react-table"
+import { format } from "date-fns"
 import { ArrowUpDown, Edit, Eye, icons } from "lucide-react"
 import Link from "next/link"
 
@@ -66,6 +67,12 @@ export const columns: ColumnDef<PatientFolder>[] = [
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         )
+      },
+      cell: ({ row }) => {
+        
+        const formatted = format(row.getValue("birthday"), "dd/MM/yyyy")
+   
+        return <div className="text-center font-medium">{formatted}</div>
       },
   },
   {

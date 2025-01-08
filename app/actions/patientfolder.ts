@@ -48,9 +48,7 @@ export const addPatientFolder = async (state: any, formdata: FormData) => {
                 blood: formdata.get('gs'),
                 genre: formdata.get('genre'),
                 typeDossier: formdata.get('typedossier'),
-            })
-            console.log('here');
-            
+            })            
 
             if (!formField.success) {
                 return {

@@ -45,12 +45,12 @@ export function getPage(role: string, id: string) {
             },
             {
             title: "Liste Dossier",
-            url: "/dashboard/patients/",
+            url: `/dashboard/patients/dossier/${id}`,
             icon: Inbox,
             },
             {
-            title: "Compte",
-            url: "#",
+            title: "Dossier",
+            url: `/dashboard/patients/${id}`,
             icon: Settings,
             },
         ] 
@@ -61,17 +61,17 @@ export function getPage(role: string, id: string) {
         const items = [
             {
             title: "Dashboard",
-            url: "#",
+            url: `/dashboard/personnels/dashboard/${id}`,
             icon: Home,
             },
             {
             title: "Liste Patient",
-            url: "#",
+            url: "/dashboard/patients",
             icon: Inbox,
             },
             {
-            title: "Compte",
-            url: "#",
+            title: `Dossier`,
+            url: `/dashboard/personnels/${id}`,
             icon: Settings,
             },
         ] 
@@ -82,17 +82,17 @@ export function getPage(role: string, id: string) {
         const items = [
             {
             title: "Tickets",
-            url: "#",
+            url: "/dashboard/tickets",
             icon: Inbox,
             },
             {
                 title: "Liste Patient",
-                url: "#",
+                url: "/dashboard/patients",
                 icon: Home,
             },
             {
-            title: "Compte",
-            url: "#",
+            title: "Dossier",
+            url: `/dashboard/personnels/${id}`,
             icon: Settings,
             },
         ] 

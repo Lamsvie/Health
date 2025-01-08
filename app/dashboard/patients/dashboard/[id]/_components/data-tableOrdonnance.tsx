@@ -25,15 +25,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import PrescriptionComponent from "./prescription"
-import TestResultComponent from "./testResult"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
 
-export function DataTableTest<TData, TValue>({
+export function DataTableOrd<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -61,18 +59,16 @@ export function DataTableTest<TData, TValue>({
 
   return (
     <div>
-        <div className="flex justify-between items-center py-4">
+        <div className="flex  items-center py-4">
             
               <Input
               placeholder="Filtrer reference..."
-              value={(table.getColumn("test_ref")?.getFilterValue() as string) ?? ""}
+              value={(table.getColumn("ordonnance_Ref")?.getFilterValue() as string) ?? ""}
               onChange={(event) =>
-                  table.getColumn("test_ref")?.setFilterValue(event.target.value)
+                  table.getColumn("ordonnance_Ref")?.setFilterValue(event.target.value)
               }
-              className="max-w-sm"
+              className="max-w-md"
               />
-
-              
             
         </div>
         <div className="rounded-md border">

@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { verifyToken } from "./lib/verifyToken";
+import { getPersonnelFolder, getUserFolder, verifyToken } from "./lib/verifyToken";
+import axios from "axios";
 
 export async function middleware( req: NextRequest ) {
 
@@ -13,13 +14,26 @@ export async function middleware( req: NextRequest ) {
     }
 
     // si token existe et user sur l'url /login, verifier la validité 
-    const checkAuth = await verifyToken()
-
+    const checkAuth = await verifyToken()    
 
     if (checkAuth && !req.nextUrl.pathname.startsWith('/dashboard')) {
         
+        if (checkAuth.role === 'Medecin' || checkAuth.role === 'Caissier' && !req.nextUrl.pathname.startsWith('/dashboard/personnels')) {
+
+            const getPersonnelfolder = await getPersonnelFolder(checkAuth.ref)
+            
+            return NextResponse.redirect(new URL(`/dashboard/personnels/dashboard/${getPersonnelfolder._id}`, req.nextUrl))
+            
+        }else if (checkAuth.role === 'Patient' && !req.nextUrl.pathname.startsWith('/dashboard/patients')) {
+
+            const getUserfolder = await getUserFolder(checkAuth.ref)
+            return NextResponse.redirect(new URL(`/dashboard/patients/dashboard/${getUserfolder._id}`, req.nextUrl))
+        }
+
         return NextResponse.redirect(new URL('/dashboard', req.nextUrl))
+        
     }
+
 
     return NextResponse.next()
 }
